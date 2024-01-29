@@ -131,16 +131,24 @@ fun BuildSteps.runVcrTestRecordingSaveCassettes() {
             chmod 600 google-account.json
             gcloud auth activate-service-account --key-file=google-account.json
 
+
+            echo "Listing files present in ${'$'}VCR_PATH:"
+            ls ${'$'}VCR_PATH
+
             export BRANCH_NAME=%teamcity.build.branch%
-            gsutil ls -p ${'$'}GOOGLE_INFRA_PROJECT gs://${'$'}VCR_BUCKET_NAME/fixtures/
             if [ "${'$'}BRANCH_NAME" = "refs/heads/main" ]; then
-                echo "Copying to main"
+                echo "Using main branch, so copying files to fixures/ in root of Cloud Storage bucket"
+
+                echo "Listing files already present in gs://${'$'}VCR_BUCKET_NAME/fixtures/:"
+                gsutil ls -p ${'$'}GOOGLE_INFRA_PROJECT gs://${'$'}VCR_BUCKET_NAME/fixtures/
+
+                echo "Copying files to Cloud Storage bucket:"
                 gsutil -m cp ${'$'}VCR_PATH/* gs://${'$'}VCR_BUCKET_NAME/fixtures/
             else
-                echo "Copying to ${'$'}BRANCH_NAME"
+                echo "Using ${'$'}BRANCH_NAME branch, so copying files to ${'$'}BRANCH_NAME/fixtures/ folder in Cloud Storage bucket"
+
                 gsutil -m cp ${'$'}VCR_PATH/* gs://${'$'}VCR_BUCKET_NAME/${'$'}BRANCH_NAME/fixtures/
             fi
-
             # Cleanup
             rm google-account.json
             gcloud auth application-default revoke
