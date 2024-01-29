@@ -109,30 +109,6 @@ fun BuildSteps.runVcrTestRecordingSetup() {
     })
 }
 
-fun BuildSteps.testVcrStuff() {
-    step(ScriptBuildStep {
-        name = "Testing stuff for VCR tests"
-        scriptContent = """
-            #!/bin/bash
-            echo "Testing stuff for VCR tests"
-            mkdir -p ${'$'}VCR_PATH
-
-            pwd
-            ls
-            ls ${'$'}VCR_PATH
-            ls ${'$'}GOPATH/src/
-
-
-            
-            echo "Finished"
-        """.trimIndent()
-        // ${'$'} is required to allow creating a script in TeamCity that contains
-        // parts like ${GIT_HASH_SHORT} without having Kotlin syntax issues. For more info see:
-        // https://youtrack.jetbrains.com/issue/KT-2425/Provide-a-way-for-escaping-the-dollar-sign-symbol-in-multiline-strings-and-string-templates
-    })
-}
-
-
 fun BuildSteps.runVcrTestRecordingSaveCassettes() {
     step(ScriptBuildStep {
         name = "Tasks after running VCR tests: if in RECORDING mode, push new cassettes to GCS"
