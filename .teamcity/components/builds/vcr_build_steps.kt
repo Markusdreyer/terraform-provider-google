@@ -70,19 +70,19 @@ fun BuildSteps.runVcrTestRecordingSetup() {
         name = "Setup for running VCR tests: if in REPLAY mode, download existing cassettes"
         scriptContent = """
             #!/bin/bash
-            echo "VCR TESTING SETUP"
-            echo "VCR_PATH: ${'$'}{VCR_PATH}"
+            echo "VCR Testing: Pre-test setup"
             echo "VCR_MODE: ${'$'}{VCR_MODE}"
+            echo "VCR_PATH: ${'$'}{VCR_PATH}"
             
             # Ensure directory exists regardless of VCR mode
             mkdir -p ${'$'}VCR_PATH
             
             if [ "${'$'}VCR_MODE" = "RECORDING" ]; then
-                echo "Recording mode, skipping cassette retrieval"
+                echo "RECORDING MODE - skipping this build step; nothing needed from Cloud Storage bucket"
                 exit 0
             fi
 
-            # REPLAY MODE - retrieve cassettes from GCS
+            echo "REPLAY MODE- retrieving cassettes from Cloud Storage bucket"
 
             # Authenticate gcloud CLI
             echo "${'$'}{GOOGLE_CREDENTIALS}" > google-account.json
@@ -114,15 +114,17 @@ fun BuildSteps.runVcrTestRecordingSaveCassettes() {
         name = "Tasks after running VCR tests: if in RECORDING mode, push new cassettes to GCS"
         scriptContent = """
             #!/bin/bash
-            echo "VCR TESTING POST"
-            echo "VCR_PATH: ${'$'}{VCR_PATH}"
+            echo "VCR Testing: Post-test steps"
             echo "VCR_MODE: ${'$'}{VCR_MODE}"
+            echo "VCR_PATH: ${'$'}{VCR_PATH}"
+
             if [ "${'$'}VCR_MODE" = "REPLAYING" ]; then
-            echo "Replaying mode, skipping"
+            echo "REPLAYING MODE - skipping this build step; nothing to be done"
             exit 0
             fi
 
-            # RECORDING MODE - push new cassettes to GCS
+            echo "RECORDING MODE - push new cassettes to Cloud Storage bucket"
+
             # Authenticate gcloud CLI
             echo "${'$'}{GOOGLE_CREDENTIALS}" > google-account.json
             gcloud auth activate-service-account --key-file=google-account.json
