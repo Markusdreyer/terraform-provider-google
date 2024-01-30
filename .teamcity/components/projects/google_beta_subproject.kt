@@ -1,3 +1,5 @@
+// This file is controlled by MMv1, any changes made here will be overwritten
+
 package projects
 
 import ProviderNameBeta
@@ -30,7 +32,7 @@ fun googleSubProjectBeta(allConfig: AllContextParameters): Project {
 
         // VCR recording project that allows VCR recordings to be made using hashicorp/terraform-provider-google-beta OR modular-magician/terraform-provider-google-beta
         // This is only present for the Beta provider, as only TPGB VCR recordings are used.
-        subProject(vcrRecordingProject(betaId, ProviderNameBeta, HashiCorpVCSRootBeta, ModularMagicianVCSRootBeta, vcrConfig))
+        subProject(vcrRecording(betaId, ProviderNameBeta, HashiCorpVCSRootBeta, ModularMagicianVCSRootBeta, vcrConfig))
 
         params {
             readOnlySettings()

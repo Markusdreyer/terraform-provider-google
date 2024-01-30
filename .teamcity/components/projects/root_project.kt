@@ -1,3 +1,5 @@
+// This file is controlled by MMv1, any changes made here will be overwritten
+
 package projects
 
 import SharedResourceNameBeta
@@ -17,7 +19,7 @@ fun googleCloudRootProject(allConfig: AllContextParameters): Project {
 
     return Project{
 
-        description = "A test project created by the refactored config code in https://github.com/hashicorp/terraform-provider-google/tree/teamcity-refactor"
+        description = "Contains all testing projects for the GA and Beta versions of the Google provider."
 
         // Registering the VCS roots used by subprojects
         vcsRoot(vcs_roots.HashiCorpVCSRootGa)

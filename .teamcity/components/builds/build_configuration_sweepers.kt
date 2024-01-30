@@ -1,3 +1,5 @@
+// This file is controlled by MMv1, any changes made here will be overwritten
+
 package builds
 
 import DefaultBuildTimeoutDuration
@@ -45,8 +47,6 @@ class SweeperDetails(private val sweeperName: String, private val parentProjectN
             }
 
             steps {
-                // Commenting out these steps during refactoring the TeamCity config means we don't interact with the
-                // GCP test projects while testing the new config
                 setGitCommitBuildId()
                 tagBuildToIndicatePurpose()
                 configureGoEnv()

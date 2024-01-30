@@ -1,9 +1,12 @@
+// This file is controlled by MMv1, any changes made here will be overwritten
+
 package builds
 
 import DefaultBuildTimeoutDuration
 import DefaultParallelism
 import generated.ServiceParallelism
 import jetbrains.buildServer.configs.kotlin.BuildType
+import jetbrains.buildServer.configs.kotlin.SharedResource
 import jetbrains.buildServer.configs.kotlin.sharedResources
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 import replaceCharsId
@@ -50,14 +53,11 @@ class PackageDetails(private val packageName: String, private val displayName: S
             }
 
             steps {
-                // Commenting out these steps during refactoring the TeamCity config means we don't interact with the
-                // GCP test projects while testing the new config
                 setGitCommitBuildId()
                 tagBuildToIndicatePurpose()
                 configureGoEnv()
                 downloadTerraformBinary()
                 runAcceptanceTests()
-//                helloWorld(sharedResources[0])
             }
 
             features {

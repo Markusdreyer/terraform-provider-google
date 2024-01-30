@@ -1,3 +1,5 @@
+// This file is controlled by MMv1, any changes made here will be overwritten
+
 package projects.reused
 
 import SharedResourceNameVcr
@@ -7,7 +9,7 @@ import jetbrains.buildServer.configs.kotlin.Project
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 import replaceCharsId
 
-fun vcrRecordingProject(parentProject:String, providerName: String, hashicorpVcsRoot: GitVcsRoot, modularMagicianVcsRoot: GitVcsRoot, config: AccTestConfiguration): Project {
+fun vcrRecording(parentProject:String, providerName: String, hashicorpVcsRoot: GitVcsRoot, modularMagicianVcsRoot: GitVcsRoot, config: AccTestConfiguration): Project {
 
     // Create unique ID for the dynamically-created project
     var projectId = "${parentProject}_${VcrRecordingProjectId}"
@@ -23,7 +25,7 @@ fun vcrRecordingProject(parentProject:String, providerName: String, hashicorpVcs
     var hcVcr = VcrDetails(providerName, buildIdHashiCorp, hashicorpVcsRoot, sharedResources)
     var hcBuildConfig = hcVcr.vcrBuildConfig(config)
 
-    // Create the build config for hashicorp/terraform-provider-google
+    // Create the build config for modular-magician/terraform-provider-google
     var mmVcr = VcrDetails(providerName, buildIdModularMagician, modularMagicianVcsRoot, sharedResources)
     var mmBuildConfig = mmVcr.vcrBuildConfig(config)
 
