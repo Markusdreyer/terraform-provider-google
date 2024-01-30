@@ -1,9 +1,4 @@
-/*
- * Copyright (c) HashiCorp, Inc.
- * SPDX-License-Identifier: MPL-2.0
- */
-
-// this file is auto-generated with mmv1, any changes made here will be overwritten
+// This file is controlled by MMv1, any changes made here will be overwritten
 
 // Provider name that matches the name in the Registry
 const val ProviderNameGa = "google"
