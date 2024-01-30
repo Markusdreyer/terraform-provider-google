@@ -7,7 +7,6 @@ import ServiceSweeperName
 import SharedResourceNameBeta
 import SharedResourceNameGa
 import builds.*
-import generated.PackagesList
 import generated.SweepersList
 import jetbrains.buildServer.configs.kotlin.Project
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot

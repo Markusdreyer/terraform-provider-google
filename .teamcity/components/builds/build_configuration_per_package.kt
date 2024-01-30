@@ -4,7 +4,6 @@ import DefaultBuildTimeoutDuration
 import DefaultParallelism
 import generated.ServiceParallelism
 import jetbrains.buildServer.configs.kotlin.BuildType
-import jetbrains.buildServer.configs.kotlin.SharedResource
 import jetbrains.buildServer.configs.kotlin.sharedResources
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 import replaceCharsId
