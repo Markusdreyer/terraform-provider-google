@@ -34,10 +34,7 @@ func TestAccProviderFunction_project_id_from_self_link(t *testing.T) {
 				),
 			},
 			{
-				Config: testProviderFunction_project_id_from_self_link(context, badInput),
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestMatchOutput(context["output_name"].(string), projectIdRegex),
-				),
+				Config:      testProviderFunction_project_id_from_self_link(context, badInput),
 				ExpectError: regexp.MustCompile("Error in function call"), // ExpectError doesn't inspect the specific error messages
 			},
 		},
