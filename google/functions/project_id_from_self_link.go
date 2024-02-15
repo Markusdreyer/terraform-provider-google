@@ -22,7 +22,7 @@ func (f ProjectFromSelfLinkFunction) Metadata(ctx context.Context, req function.
 func (f ProjectFromSelfLinkFunction) Definition(ctx context.Context, req function.DefinitionRequest, resp *function.DefinitionResponse) {
 	resp.Definition = function.Definition{
 		Summary:     "Returns the project name within the resource self link or id provided as an argument.",
-		Description: "Takes a single string argument, which should be a self link or id of a resource. This function will either return the project name from the input string or raise an error due to no project being present in the string. The function uses the presence of \"project/{{project}}\" in the input string to identify the project name, e.g. when the function is passed the self link \"https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-c/instances/my-instance\" as an argument it will return \"my-project\".",
+		Description: "Takes a single string argument, which should be a self link or id of a resource. This function will either return the project name from the input string or raise an error due to no project being present in the string. The function uses the presence of \"projects/{{project}}/\" in the input string to identify the project name, e.g. when the function is passed the self link \"https://www.googleapis.com/compute/v1/projects/my-project/zones/us-central1-c/instances/my-instance\" as an argument it will return \"my-project\".",
 		Parameters: []function.Parameter{
 			function.StringParameter{
 				Name:        "self_link",
