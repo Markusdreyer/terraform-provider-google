@@ -25,6 +25,7 @@ func TestAccProviderFunction_project_id_from_self_link(t *testing.T) {
 	context := map[string]interface{}{
 		"function_name": "project_id_from_self_link",
 		"output_name":   "project_id",
+		"resource_name": "tf-test-project-id-func",
 		"self_link":     "", // overridden in test cases
 	}
 
@@ -59,7 +60,7 @@ func TestAccProviderFunction_project_id_from_self_link(t *testing.T) {
 			},
 			{
 				// Can get the project from a resource's id in one step
-				// Uses google_service_account resource's id attribute with format projects/{{project}}/serviceAccounts/{{email}}
+				// Uses google_pubsub_topic resource's id attribute with format projects/{{project}}/topics/{{name}}
 				Config: testProviderFunction_get_project_from_resource_id(context),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestMatchOutput(context["output_name"].(string), projectIdRegex),
@@ -107,13 +108,12 @@ terraform {
 	}
 }
 
-resource "google_service_account" "service_account" {
-	account_id   = "tf-test-project-id-func"
-	display_name = "Testing use of provider function %{function_name}"
+resource "google_pubsub_topic" "example" {
+  name = "%{resource_name}"
 }
 
 output "%{output_name}" {
-	value = provider::google::%{function_name}(google_service_account.service_account.id)
+	value = provider::google::%{function_name}(google_pubsub_topic.example.id)
 }
 `, context)
 }
@@ -134,7 +134,7 @@ data "google_compute_network" "default" {
 }
 
 resource "google_compute_subnetwork" "subnet" {
-  name          = "tf-test-project-id-func"
+  name          = "%{resource_name}"
   ip_cidr_range = "10.2.0.0/16"
   network        = data.google_compute_network.default.id
 }
