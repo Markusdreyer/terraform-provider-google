@@ -46,7 +46,7 @@ func (f ProjectFromSelfLinkFunction) Run(ctx context.Context, req function.RunRe
 	// Prepare how we'll identify project id from input string
 	regex := regexp.MustCompile("projects/(?P<ProjectId>[^/]+)/") // Should match the pattern below
 	template := "$ProjectId"                                      // Should match the submatch identifier in the regex
-	pattern := "projects/{project}/"                              // Human-readable pattern used in errors and warnings
+	pattern := "projects/{project}/"                              // Human-readable pseudo-regex pattern used in errors and warnings
 
 	// Get and return element from input string
 	projectId := GetElement(ctx, arg0, regex, template, pattern, req, resp)

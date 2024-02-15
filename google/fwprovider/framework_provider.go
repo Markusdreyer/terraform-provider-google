@@ -906,5 +906,6 @@ func (p *FrameworkProvider) Functions(_ context.Context) []func() function.Funct
 	return []func() function.Function{
 		functions.NewEchoFunction,
 		functions.NewProjectFromSelfLinkFunction,
+		functions.NewResourceNameFromSelfLinkFunction,
 	}
 }
