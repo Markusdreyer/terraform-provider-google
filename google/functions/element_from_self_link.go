@@ -8,8 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/function"
 )
 
-// TODO name stuff well
-func GetElement(ctx context.Context, input string, regex *regexp.Regexp, template string, pattern string, req function.RunRequest, resp *function.RunResponse) string {
+func GetElementFromSelfLink(ctx context.Context, input string, regex *regexp.Regexp, template string, pattern string, req function.RunRequest, resp *function.RunResponse) string {
 	submatches := regex.FindAllStringSubmatchIndex(input, -1)
 
 	// Zero matches means unusable input; error returned

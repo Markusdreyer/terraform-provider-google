@@ -11,7 +11,7 @@ import (
 	tpg_functions "github.com/hashicorp/terraform-provider-google/google/functions"
 )
 
-func TestFunctionInternals_getElement(t *testing.T) {
+func TestFunctionInternals_GetElementFromSelfLink(t *testing.T) {
 
 	regex := regexp.MustCompile("two/(?P<Element>[^/]+)/")
 	template := "$Element"
@@ -50,7 +50,7 @@ func TestFunctionInternals_getElement(t *testing.T) {
 			}
 
 			// Act
-			result := tpg_functions.GetElement(ctx, tc.Input, regex, template, pattern, req, &resp)
+			result := tpg_functions.GetElementFromSelfLink(ctx, tc.Input, regex, template, pattern, req, &resp)
 
 			// Assert
 			if resp.Diagnostics.HasError() && !tc.ExpectError {

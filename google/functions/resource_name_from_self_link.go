@@ -49,7 +49,7 @@ func (f ResourceNameFromSelfLinkFunction) Run(ctx context.Context, req function.
 	pattern := "resourceType/{name}$"                        // Human-readable pseudo-regex pattern used in errors and warnings
 
 	// Get and return element from input string
-	resourceName := GetElement(ctx, arg0, regex, template, pattern, req, resp)
+	resourceName := GetElementFromSelfLink(ctx, arg0, regex, template, pattern, req, resp)
 	if resp.Diagnostics.HasError() {
 		return
 	}

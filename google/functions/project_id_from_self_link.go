@@ -49,7 +49,7 @@ func (f ProjectFromSelfLinkFunction) Run(ctx context.Context, req function.RunRe
 	pattern := "projects/{project}/"                              // Human-readable pseudo-regex pattern used in errors and warnings
 
 	// Get and return element from input string
-	projectId := GetElement(ctx, arg0, regex, template, pattern, req, resp)
+	projectId := GetElementFromSelfLink(ctx, arg0, regex, template, pattern, req, resp)
 	if resp.Diagnostics.HasError() {
 		return
 	}
