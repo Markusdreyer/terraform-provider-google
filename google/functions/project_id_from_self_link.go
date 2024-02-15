@@ -2,7 +2,6 @@ package functions
 
 import (
 	"context"
-	"fmt"
 	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework/function"
@@ -44,36 +43,15 @@ func (f ProjectFromSelfLinkFunction) Run(ctx context.Context, req function.RunRe
 		return
 	}
 
+	// Prepare how we'll identify project id from input string
+	regex := regexp.MustCompile("projects/(?P<ProjectId>[^/]+)/") // Should match the pattern below
+	template := "$ProjectId"                                      // Should match the submatch identifier in the regex
 	pattern := "projects/{project}/"                              // Human-readable pattern used in errors and warnings
-	regex := regexp.MustCompile("projects/(?P<ProjectId>[^/]+)/") // Should match the pattern above
 
-	submatches := regex.FindAllStringSubmatchIndex(arg0, -1)
-
-	// Zero matches means unusable input; error returned
-	if len(submatches) == 0 {
-		resp.Diagnostics.AddArgumentError(
-			0,
-			"No project id is present in the input string",
-			fmt.Sprintf("The input string \"%s\" doesn't contain the expected pattern \"%s\".", arg0, pattern),
-		)
-		resp.Diagnostics.Append(resp.Result.Set(ctx, "")...)
+	// Get and return element from input string
+	projectId := GetElement(ctx, arg0, regex, template, pattern, req, resp)
+	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	// >1 matches means input usable but not ideal; issue warning
-	if len(submatches) > 1 {
-		resp.Diagnostics.AddArgumentWarning(
-			0,
-			"Ambiguous input string could contain more than one project id",
-			fmt.Sprintf("The input string \"%s\" contains more than one match for the pattern \"%s\". Terraform will use the first found match.", arg0, pattern),
-		)
-	}
-
-	// Return found project id
-	submatch := submatches[0] // Take the only / left-most submatch
-	template := "$ProjectId"
-	result := []byte{}
-	result = regex.ExpandString(result, template, arg0, submatch)
-	projectId := string(result)
 	resp.Diagnostics.Append(resp.Result.Set(ctx, projectId)...)
 }
